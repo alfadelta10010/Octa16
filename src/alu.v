@@ -49,11 +49,11 @@ module alu(
 						out = ~(rs1 | rs2); // NOR
 					end
 				end
-			3'b100:
+			3'b010:
 				begin
 					out = (rs1 < rs2) ? 8'b1 : 8'b0; // SLTU
 				end
-			3'b101:
+			3'b011:
 				begin
 					if (flag == 1)
 					begin
@@ -65,7 +65,7 @@ module alu(
 						overflow = 1'b0;
 					end
 				end
-			3'b110:
+			3'b100:
 				begin
 					out = rs1 >>> rs2[2:0]; // SRA
 				end
