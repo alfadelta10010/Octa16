@@ -1,51 +1,30 @@
 module branchCtrl(input wire [2:0] bCtrl,
                   input wire [7:0] r1, r2,
                   output reg bSel);
-    wire r1sign = r1[7];
-    wire r2sign = r2[7];
+    
+    wire [7:0] condinv = ~r2;
+    wire [8:0] sum = {1'b1, condinv} + {1'b0, r1} + {8'b0, 1'b1};
+    wire LT = (r1[7] ^ r2[7]) ? r1[7] : sum[8];
+    wire LTU = sum[8];
+    wire is_sum_zero = sum[7:0] == 8'b0;
+
   always_comb
     begin
       bSel = 1'b0;
       case(bCtrl)
-        3'b000: begin // BEQ
-          if (r1 == r2)
-            bSel = 1'b1;
-          else
-            bSel = 1'b0;
-        end
-        3'b001: begin // BNE
-          if (r1 != r2)
-            bSel = 1'b1;
-          else
-            bSel = 1'b0;
-        end
-        3'b010: begin // BLT
-          if (r1sign != r2sign)
-            bSel = r1sign;
-          else
-              bSel = (r1 < r2);
-        end
-        3'b011: begin // BLTU
-          if (r1 < r2)
-            bSel = 1'b1;
-          else
-            bSel = 1'b0;
-        end
-        3'b100: begin // BGE
-          if (r1sign != r2sign)
-            bSel = ~r1sign;
-          else
-            bSel = (r1 >= r2);
-        end
-        3'b101: begin // BGEU
-          if (r1 >= r2)
-            bSel = 1'b1;
-          else
-            bSel = 1'b0;
-        end
-        default: begin 
-          bSel = 1'b0;
-        end
+        3'b000: bSel = is_sum_zero; // BEQ
+          
+        3'b001: bSel = !is_sum_zero; // BNE
+          
+        3'b010: bSel = LT; // BLT
+          
+        3'b011: bSel = LTU; // BLTU
+          
+        3'b100: bSel = !LT; // BGE
+         
+        3'b101: bSel = !LTU; // BGEU
+          
+        default: bSel = 1'b0;
       endcase
     end
 endmodule

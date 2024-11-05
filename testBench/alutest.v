@@ -6,7 +6,7 @@ module alutest;
 	reg [2:0] ctrl;
 	reg flag;
 	wire [7:0] out;
-	wire overflow;
+	
 	
 	// Instantiate the ALU module
 	alu uut (
@@ -25,8 +25,8 @@ module alutest;
 		flag = 1'b0;
 		
 		// Monitor outputs in binary format
-		$monitor("Time = %0t, a = %b, b = %b, ctrl = %b, flag = %b -> out = %b, overflow = %b", 
-		          $time, a, b, ctrl, flag, out, overflow);
+		$monitor("Time = %0t, a = %b, b = %b, ctrl = %b, flag = %b -> out = %b", 
+		          $time, a, b, ctrl, flag, out);
 		
 		// Test ADD operation (ctrl = 3'b000, flag = 0)
 		#10 a = 8'b00001111; b = 8'b00001010; ctrl = 3'b000; flag = 1'b0; // Expected: out = 25, overflow = 0

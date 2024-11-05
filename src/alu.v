@@ -8,6 +8,8 @@ module alu(
     wire [7:0] add_out;
     reg [7:0] a_temp, b_temp;
     reg cin;
+    wire [15:0] sext_rs1 = {{8{a[7]}}, a};
+    wire [15:0] sra_rslt = sext_rs1 >> b[2:0];
 
     // Instantiate adder module
     adder_8 adder (
@@ -51,7 +53,7 @@ module alu(
             end
 
             3'b100: begin
-                out = a >>> b[2:0]; // SRA
+                out = sra_rslt;// SRA
             end
 
             default: begin
