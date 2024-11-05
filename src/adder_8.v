@@ -2,12 +2,11 @@ module adder_8(
     input [7:0] A,
     input [7:0] B,
     input Cin,
-    output [7:0] Sum,
-    output Cout
+    output [7:0] Sum
 );
 
     wire C4;  // Carry between lower and upper 4-bit additions
-
+    wire Cout;
     // Instantiate lower 4-bit CLA
     cla lower_4bit (
         .A(A[3:0]), 

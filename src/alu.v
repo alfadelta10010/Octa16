@@ -2,12 +2,10 @@ module alu(
     input wire [7:0] a, b,
     input wire [2:0] ctrl,
     input wire flag,
-    output reg [7:0] out, 
-    output reg overflow
+    output reg [7:0] out
 );
 
     wire [7:0] add_out;
-    wire add_overflow;
     reg [7:0] a_temp, b_temp;
     reg cin;
 
@@ -16,14 +14,12 @@ module alu(
         .A(a_temp), 
         .B(b_temp), 
         .Cin(cin), 
-        .Sum(add_out), 
-        .Cout(add_overflow)
+        .Sum(add_out)
     );
 
     always @(*) begin
         // Default values to avoid latches
         out = 8'b0;
-        overflow = 1'b0;
         a_temp = 8'b0;
         b_temp = 8'b0;
         cin = 1'b0; 
@@ -33,9 +29,7 @@ module alu(
                a_temp = a;
                 b_temp = flag ? ~b : b;
                 cin = flag;
-                
                 out = add_out;
-                overflow = (flag == 0) ? add_overflow : ((a[7] ^ b[7]) & (a[7] ^ add_out[7]));
             end
 
             3'b001: begin
@@ -62,7 +56,6 @@ module alu(
 
             default: begin
                 out = 8'b0;
-                overflow = 1'b0;
             end
         endcase
     end
