@@ -1,6 +1,6 @@
 module mux21(d0, d1, sel, y);
 
-    parameter WIDTH = 3;
+    parameter WIDTH = 8;
     input [WIDTH-1:0] d0, d1;
     input sel;
     output [WIDTH-1:0] y;

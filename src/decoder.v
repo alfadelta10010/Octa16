@@ -2,7 +2,7 @@ module decoder(input wire [15:0]instIn,
          output reg [2:0]rs1, rs2, rd,
          output reg [2:0]func,
          output reg [2:0]opcode,
-         output reg imm);
+         output reg [7:0]imm);
  
   always@(*)
     begin
