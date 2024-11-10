@@ -11,7 +11,7 @@ module reg_ff #(parameter DATA_WIDTH = 8) (clk, wrEn, rs1, rs2, rd, r1, r2, rst,
         reg_file[i] = 0;
       end
   end
-  always @(posedge clk or posedge rst) begin
+  always @(posedge clk) begin
     if (rst) begin
       reg_file[0] <= 0;
       reg_file[1] <= 0;  // substitute with other values
@@ -22,7 +22,7 @@ module reg_ff #(parameter DATA_WIDTH = 8) (clk, wrEn, rs1, rs2, rd, r1, r2, rst,
       reg_file[6] <= 0;
       reg_file[7] <= 0;
     end else begin
-      reg_file[rd] <= (wrEn && rd != 0) ? dIn : reg_file[rd];
+      reg_file[rd] <= (wrEn ? dIn : ( (rd != 0) ? reg_file[rd] : 0));
     end
   end
 /*

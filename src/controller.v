@@ -5,7 +5,7 @@ module controller(input wire [2:0]func,
             output reg [2:0]alu_op, branch_ctrl,
             output reg alu_s1, alu_s2);
     
-    always_comb
+    always@(*)
         begin
             reg_wr = 1'b0;
             alu_s1 = 1'b0;

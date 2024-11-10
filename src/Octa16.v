@@ -11,7 +11,7 @@ wire [7:0] pcP, pcN;
 wire [7:0] aluOut, pcSel, Inst, imm;
 wire bSel, reg_wr, mem_wr;
 wire [2:0] rs1, rs2, rd, func, opcode;
-wire [7:0] r1, r2, dIn;
+wire [7:0] r1, r2;
 wire alu_s1, alu_s2, flag;
 wire [2:0] alu_opl;
 wire [7:0] aluOut, dataOut;
@@ -44,7 +44,7 @@ mux31 #(8) WB_MUX (.a(dataOut), .b(aluOut), .c(pcN), .s(wb_ctrl), .y(dIn));
 
 controller Control_Unit (.func(func), .op(opcode), .reg_wr(reg_wr), .mem_wr(mem_wr), .flag(flag), .doBranch(doBranch), .doJump(doJump), .wb_ctrl(wb_ctrl), .alu_op(alu_op), .branch_ctrl(branch_ctrl), .alu_s1(alu_s1), .alu_s2(alu_s2));
 
-branchCtrl(.bCtrl(branch_ctrl), .r1(rs1), .r2(rs2), .bSel(branchOut));
+branchCtrl Branch_Control (.bCtrl(branch_ctrl), .r1(rs1), .r2(rs2), .bSel(branchOut));
 
 and Branch (branch, branchOut, doBranch);
 or Jump (bSel, branch, doJump);

@@ -8,7 +8,7 @@ module branchCtrl(input wire [2:0] bCtrl,
     wire LTU = sum[8];
     wire is_sum_zero = sum[7:0] == 8'b0;
 
-  always_comb
+  always@(*)
     begin
       bSel = 1'b0;
       case(bCtrl)

@@ -4,7 +4,7 @@ module decoder(input wire [15:0]instIn,
          output reg [2:0]opcode,
          output reg imm);
  
-  always_comb
+  always@(*)
     begin
       opcode = instIn[2:0];
       rs1 = 3'b0;
@@ -64,3 +64,6 @@ module decoder(input wire [15:0]instIn,
               3'b000: begin imm = {instIn[15:12],4'b0}; rs1 = instIn[11:9]; end  // AUIR
             endcase
           end
+endcase 
+end 
+endmodule
