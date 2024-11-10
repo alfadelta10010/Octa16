@@ -1,4 +1,4 @@
-module mux (d0, d1, sel, y);
+module mux21(d0, d1, sel, y);
 
     parameter WIDTH = 3;
     input [WIDTH-1:0] d0, d1;
