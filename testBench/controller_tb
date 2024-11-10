@@ -1,0 +1,62 @@
+module controller_tb;
+
+    reg [2:0] func;
+    reg [2:0] op;
+    wire reg_wr, mem_wr, flag, doBranch, doJump;
+    wire [1:0] wb_ctrl;
+    wire [2:0] alu_op, branch_ctrl;
+    wire alu_s1, alu_s2;
+
+    controller uut (
+        .func(func),
+        .op(op),
+        .reg_wr(reg_wr),
+        .mem_wr(mem_wr),
+        .flag(flag),
+        .doBranch(doBranch),
+        .doJump(doJump),
+        .wb_ctrl(wb_ctrl),
+        .alu_op(alu_op),
+        .branch_ctrl(branch_ctrl),
+        .alu_s1(alu_s1),
+        .alu_s2(alu_s2)
+    );
+
+    initial begin
+      $dumpfile("dump.vcd");
+      $dumpvars(0, controller_tb );
+        $display("Time\top\tfunc\treg_wr\tmem_wr\tflag\tdoBranch\tdoJump\twb_ctrl\talu_op\tbranch_ctrl\talu_s1\talu_s2");
+        $monitor("%0d\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b\t%b", 
+                 $time, op, func, reg_wr, mem_wr, flag, doBranch, doJump, wb_ctrl, alu_op, branch_ctrl, alu_s1, alu_s2);
+        
+        op = 3'b000; func = 3'b000; #10;
+        op = 3'b000; func = 3'b001; #10;
+        op = 3'b000; func = 3'b010; #10;
+        op = 3'b000; func = 3'b011; #10;
+        op = 3'b000; func = 3'b100; #10;
+        op = 3'b000; func = 3'b101; #10;
+        op = 3'b000; func = 3'b110; #10;
+        op = 3'b000; func = 3'b111; #10;
+
+        op = 3'b001; func = 3'b000; #10;
+        op = 3'b001; func = 3'b010; #10;
+        op = 3'b001; func = 3'b011; #10;
+        op = 3'b001; func = 3'b100; #10;
+        op = 3'b001; func = 3'b101; #10;
+        op = 3'b001; func = 3'b110; #10;
+        op = 3'b001; func = 3'b111; #10;
+
+        op = 3'b010; func = 3'b000; #10;
+        op = 3'b011; func = 3'b000; #10;
+        op = 3'b100; func = 3'b000; #10;
+
+        op = 3'b101; func = 3'b000; #10;
+        op = 3'b101; func = 3'b100; #10;
+
+        op = 3'b110; func = 3'b000; #10;
+        op = 3'b110; func = 3'b001; #10;
+
+        $stop;
+    end
+
+endmodule
