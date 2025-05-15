@@ -1,21 +1,22 @@
-module RegisterFile(clk, wen, rd, rs1, rs2, r1, r2, din);
-  input logic clk, wen;
-  input logic [2:0] rd;
-  input logic [2:0] rs1;
-  input logic [2:0] rs2;
-  input logic [7:0] din;
-  output logic [7:0] r1;
-  output logic [7:0] r2;
-
-  logic [7:0] regs [0:7];
-
+module regFile #(parameter DATA_WIDTH = 8) (clk, wrEn, rs1, rs2, rd, r1, r2, dIn);
+  input logic clk, wrEn;
+  input logic [2:0] rs1, rs2, rd;
+  input logic [DATA_WIDTH-1:0] dIn;
+  output logic [DATA_WIDTH-1:0] r1, r2;
+  reg [DATA_WIDTH-1:0] reg_file [0:7];
   initial begin
-    for (int i = 0; i < 8; i++)
-      regs[i] <= 8'b0;
+    int i;
+    for (i = 0; i < 7; i = i + 1) 
+      begin
+        reg_file[i] = 0;
+      end
   end
-  always @(posedge clk)
-    if (wen) 
-      regs[rd] <= din;
-    assign r1 = regs[rs1];
-    assign r2 = regs[rs2];
+
+  // register file write logic (synchronous)
+  always @(posedge clk) 
+    reg_file[rd] <= (wrEn && rd != 0) ? dIn : reg_file[rd];
+
+  // register file read logic (combinational)
+  assign r1 = (rs1 != 0 ) ? reg_file[rs1] : 0;
+  assign r2 = (rs2 != 0 ) ? reg_file[rs2] : 0;
 endmodule
